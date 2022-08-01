@@ -6,6 +6,10 @@ kubectl, minikube, docker
 ## 실행방법
 ```
 minikube start --driver=docker
+
+kubectl apply -f=master-deployment.yaml
+
+minikube service backend
 ```
 
 ## TodoList
