@@ -1,3 +1,5 @@
+# kubectl apply -f=master-deployment.yaml
+
 # deployment, service를 단일 파일로 합치는 경우 service를 먼저 적는게 좋음
 # 위에서 아래로 실행되기 때문에 service를 먼저 하는게 나음
 # deployment가 pod을 생성한 기록까지 service에 기록으로 남기는게 더 좋은 방법이기 때문!
