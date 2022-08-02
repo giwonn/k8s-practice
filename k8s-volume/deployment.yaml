@@ -18,7 +18,7 @@ spec:
           env:
             - name: STORY_FOLDER
               # value: 'story'
-              valueFrom:
+              valueFrom: # environment.yaml에서 정의한 키값을 가져오도록 작성함
                 configMapKeyRef:
                   name: data-store-env
                   key: folder
