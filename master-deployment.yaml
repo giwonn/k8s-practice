@@ -34,4 +34,11 @@ spec:
     spec:
       containers:
         - name: second-node
-          image: l4279625/kub-first-app:8
+          image: l4279625/kub-first-app
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8082
+            periodSeconds: 3
+            initialDelaySeconds: 5

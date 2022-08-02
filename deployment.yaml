@@ -26,6 +26,13 @@ spec: # Deployment에 대한 spec
     spec: # pod에 대한 spec
       containers:
         - name: second-node
-          image: l4279625/kub-first-app:8
+          image: l4279625/kub-first-app
+          imagePullPolicy: Always
+          livenessProbe: # 컨테이너가 구동되어 실행 중인지 검사하도록 쿠버네티스를 정의함
+            httpGet:
+              path: /
+              port: 8082
+            periodSeconds: 3
+            initialDelaySeconds: 5
       # - name: ...
       #   image: ...
