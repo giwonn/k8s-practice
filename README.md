@@ -7,9 +7,9 @@ kubectl, minikube, docker
 ```
 minikube start --driver=docker
 
-kubectl apply -f=master-deployment.yaml
+kubectl apply -f=deployment.yaml -f=service.yaml
 
-minikube service backend
+minikube service [service-name]
 ```
 
 ## TodoList
