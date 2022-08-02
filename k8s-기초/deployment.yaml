@@ -1,0 +1,38 @@
+# kubectl [apply | delete] -f=[파일이름]
+# kubectl apply -f=deployment.yaml
+# kubectl delete -f=deployment.yaml
+apiVersion: apps/v1
+kind: Deployment # deployment, service, pods 등
+metadata: 
+  name: second-app-deployment
+  labels:
+    group: example
+spec: # Deployment에 대한 spec
+  replicas: 1 # 처음 시작할 때 몇개의 pods을 생성할지 정해줌. 0으로 주면 처음에 pod이 생성되지 않음
+  selector:
+    matchLabels: # 제어해야 할 pod
+    # app:second-app인 키값과 tier:backend인 키값을 동시에 가진 모든 Pod이 이 Deployment에 의해 제어되어야 함을 알림.
+      app: second-app
+      tier: backend
+    # matchExpressions: # matchLabels보다 더 자세한 옵션
+    #   - {key: app, operator: In, values: [second-app, first-app]}
+  template: # 생성되어야 하는 pod 객체를 정의함
+  # [kind: pod]을 입력하지 않아도 됨. deployment의 template은 항상 pod에 대해서만 다루기 때문.
+  # https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/#DeploymentSpec
+    metadata:
+      labels:
+        app: second-app
+        tier: backend
+    spec: # pod에 대한 spec
+      containers:
+        - name: second-node
+          image: l4279625/kub-first-app
+          imagePullPolicy: Always
+          livenessProbe: # 컨테이너가 구동되어 실행 중인지 검사하도록 쿠버네티스를 정의함
+            httpGet:
+              path: /
+              port: 8082
+            periodSeconds: 3
+            initialDelaySeconds: 5
+      # - name: ...
+      #   image: ...
