@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: story-deployment
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      app: story
+  template:
+    metadata:
+      labels:
+        app: story
+    spec:
+      containers:
+        - name: story
+          image: l4279625/kub-data-demo:1
+          env:
+            - name: STORY_FOLDER
+              # value: 'story'
+              valueFrom:
+                configMapKeyRef:
+                  name: data-store-env
+                  key: folder
+          volumeMounts: # 컨테이너 내부에 마운트 될 볼륨 설정
+            - mountPath: /app/story # 마운트 될 컨테이너 내부 경로
+              name: story-volume # 마운트 될 컨테이너 경로가 어느 볼륨에 마운트되는지 정의
+      volumes: # pod에서 사용할 볼륨을 정의
+        - name: story-volume
+          persistentVolumeClaim:
+            claimName: host-pvc
+          # emptyDir: {} # 단일 pod을 사용할 때 적절한 기본 볼륨
+          # hostPath: # pod이 아닌 node에 볼륨을 생성해줌
+          #   path: /data # 컨테이너 내부 경로
+          #   type: DirectoryOrCreate
+

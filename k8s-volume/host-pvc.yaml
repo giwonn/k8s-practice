@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: host-pvc
+spec:
+  volumeName: host-pv # 연결할 영구 볼륨을 지정해줌
+  accessModes:
+    - ReadWriteOnce
+  resources: # 영구볼륨의 capacity에 대응됨
+    requests:
+      storage: 1Gi
